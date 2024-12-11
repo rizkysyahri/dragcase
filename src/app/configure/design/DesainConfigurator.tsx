@@ -88,7 +88,7 @@ const DesainConfigurator: React.FC<DesainConfiguratorProps> = ({
 
   const { startUpload } = useUploadThing("imageUploader");
 
-  const saveConfiguration = async () => {
+  async function saveConfiguration() {
     try {
       const {
         left: caseLeft,
@@ -101,7 +101,7 @@ const DesainConfigurator: React.FC<DesainConfiguratorProps> = ({
         containerRef.current!.getBoundingClientRect();
 
       const leftOffset = caseLeft - containerLeft;
-      const topOffset = caseTop + containerTop;
+      const topOffset = caseTop - containerTop;
 
       const actualX = renderedPosition.x - leftOffset;
       const actualY = renderedPosition.y - topOffset;
