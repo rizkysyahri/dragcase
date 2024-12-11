@@ -27,7 +27,7 @@ import { BASE_PRICE } from "@/config/products";
 import { useUploadThing } from "@/lib/uploadthing";
 import { toast, useToast } from "@/components/ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import { saveConfig as _saveConfig, SaveConfiguration } from "./action";
+import { saveConfig as _saveConfig, SaveConfiguration } from "./actions";
 import { useRouter } from "next/navigation";
 
 interface DesainConfiguratorProps {
@@ -55,7 +55,7 @@ const DesainConfigurator: React.FC<DesainConfiguratorProps> = ({
   const { toast } = useToast();
   const router = useRouter();
 
-  const { mutate: saveConfig } = useMutation({
+  const { mutate: saveConfig, isPending } = useMutation({
     mutationKey: ["save-config"],
     mutationFn: async (args: SaveConfiguration) => {
       await Promise.all([saveConfiguration(), _saveConfig(args)]);
@@ -393,6 +393,9 @@ const DesainConfigurator: React.FC<DesainConfiguratorProps> = ({
                 )}
               </p>
               <Button
+                isLoading={isPending}
+                disabled={isPending}
+                loadingText="Saving"
                 variant="default"
                 className="w-full bg-green-500 hover:bg-green-600"
                 onClick={() =>
