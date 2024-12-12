@@ -55,24 +55,6 @@ const DesainConfigurator: React.FC<DesainConfiguratorProps> = ({
   const { toast } = useToast();
   const router = useRouter();
 
-  const { mutate: saveConfig, isPending } = useMutation({
-    mutationKey: ["save-config"],
-    mutationFn: async (args: SaveConfiguration) => {
-      await Promise.all([saveConfiguration(), _saveConfig(args)]);
-    },
-
-    onError: () => {
-      toast({
-        title: "Something went wrong",
-        description: "There was an error on our end. Please try again.",
-        variant: "destructive",
-      });
-    },
-    onSuccess: () => {
-      router.push(`/configure/preview?id=${configId}`);
-    },
-  });
-
   const [renderedDimension, setRenderedDimension] = React.useState({
     width: imageDimensions.width / 4,
     heigth: imageDimensions.height / 4,
@@ -138,7 +120,25 @@ const DesainConfigurator: React.FC<DesainConfiguratorProps> = ({
         variant: "destructive",
       });
     }
-  };
+  }
+
+  const { mutate: saveConfig, isPending } = useMutation({
+    mutationKey: ["save-config"],
+    mutationFn: async (args: SaveConfiguration) => {
+      await Promise.all([saveConfiguration(), _saveConfig(args)]);
+    },
+
+    onError: () => {
+      toast({
+        title: "Something went wrong",
+        description: "There was an error on our end. Please try again.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      router.push(`/configure/preview?id=${configId}`);
+    },
+  });
 
   const base64ToBlob = (base64: string, mimeType: string) => {
     const byteCharacters = atob(base64);
@@ -150,6 +150,16 @@ const DesainConfigurator: React.FC<DesainConfiguratorProps> = ({
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type: mimeType });
   };
+
+  const handleSaveConfig = React.useCallback(() => {
+    saveConfig({
+      configId,
+      color: options.color.value,
+      finish: options.finish.value,
+      material: options.material.value,
+      model: options.model.value,
+    });
+  }, [configId, options]);
 
   return (
     <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-3 mb-20 pb-20">
@@ -398,15 +408,7 @@ const DesainConfigurator: React.FC<DesainConfiguratorProps> = ({
                 loadingText="Saving"
                 variant="default"
                 className="w-full bg-green-500 hover:bg-green-600"
-                onClick={() =>
-                  saveConfig({
-                    configId,
-                    color: options.color.value,
-                    finish: options.finish.value,
-                    material: options.material.value,
-                    model: options.model.value,
-                  })
-                }
+                onClick={handleSaveConfig}
               >
                 Continue <ArrowRight className="h-4 w-4 ml-1.5 inline" />{" "}
               </Button>

@@ -43,11 +43,12 @@ const Page = () => {
       variant: "destructive",
     });
   };
-  const onDropAccepted = (acceptedFiles: File[]) => {
+
+  const handleOnDropAccepted = (acceptedFiles: File[]) => {
     startUpload(acceptedFiles, { configId: undefined });
 
     setIsDragOver(false);
-  };
+  }
 
   const [isPending, startTransition] = React.useTransition();
 
@@ -63,7 +64,7 @@ const Page = () => {
       <div className="relative flex flex-1 flex-col items-center justify-center w-full">
         <Dropzone
           onDropRejected={onDropRejected}
-          onDropAccepted={onDropAccepted}
+          onDropAccepted={handleOnDropAccepted}
           accept={{
             "image/png": [".png"],
             "image/jpeg": [".jpeg"],

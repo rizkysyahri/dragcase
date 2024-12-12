@@ -62,7 +62,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
     },
   });
 
-  const handleCheckout = () => {
+  const handleCheckout = React.useCallback(() => {
     if (user) {
       // craete payment session
 
@@ -73,12 +73,9 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
       // need to log in
 
       localStorage.setItem("configurationId", id);
-      console.log(localStorage.setItem("configurationId", id));
-      console.log("modal muncul", setIsLoginModalOpen(true));
-
       setIsLoginModalOpen(true);
     }
-  };
+  }, [user, createPaymentSession, id]);
 
   return (
     <>
