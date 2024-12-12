@@ -13,8 +13,8 @@ import Confetti from "react-dom-confetti";
 import { createCheckoutSession } from "./actions";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import LoginModal from "@/components/LoginModal";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   const router = useRouter();
@@ -44,7 +44,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   if (finish === "textured") totalPrice += PRODUCT_PRICES.finish.textured;
 
   const { mutate: createPaymentSession } = useMutation({
-    mutationKey: ["get-checkout-session"],
+    mutationKey: ['get-checkout-session'],
     mutationFn: createCheckoutSession,
     onSuccess: ({ url }) => {
       if (url) router.push(url);
@@ -69,7 +69,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
     } else {
       // need to log in
 
-      localStorage.setItem("configurationId", id);
+      localStorage.setItem('configurationId', id);
       setIsLoginModalOpen(true);
     }
   }, [user, createPaymentSession, id]);

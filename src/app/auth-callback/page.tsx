@@ -11,12 +11,12 @@ const Page = () => {
   const router = useRouter();
 
   React.useEffect(() => {
-    const configurationId = localStorage.getItem("configurationId");
+    const configurationId = localStorage.getItem('configurationId');
     if (configurationId) setConfigId(configurationId);
   }, []);
 
   const { data } = useQuery({
-    queryKey: ["auth-callback"],
+    queryKey: ['auth-callback'],
     queryFn: async () => await getAuthStatus(),
     retry: true,
     retryDelay: 500,
