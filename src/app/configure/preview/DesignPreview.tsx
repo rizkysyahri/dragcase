@@ -51,10 +51,10 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
       if (url) router.push(url);
       else throw new Error("Unable to retrieve payment URL.");
     },
-    onError: (error: any) => {
+    onError: () => {
       toast({
-        icon: <CircleX className="w-5 h-5" />,
-        description: error.message,
+        icon: "Something went wrong",
+        description: "There was an error on our end. Please try again.",
         variant: "destructive",
       });
     },
