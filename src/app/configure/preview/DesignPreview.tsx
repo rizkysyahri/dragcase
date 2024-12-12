@@ -21,6 +21,8 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   const { toast } = useToast();
   const { id } = configuration;
   const { user } = useKindeBrowserClient();
+  console.log('ini user', user);
+  
 
   const [isLoginModalOpen, setIsLoginModalOpen] =
     React.useState<boolean>(false);
@@ -28,7 +30,14 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
 
   React.useEffect(() => {
     setShowConfetti(true);
-  });
+  }, []);
+
+  React.useEffect(() => {
+    // Tutup modal jika user sudah login
+    if (user) {
+      setIsLoginModalOpen(false);
+    }
+  }, [user]);
 
   const { color, model, material, finish } = configuration;
 
@@ -65,14 +74,14 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
     if (user) {
       // craete payment session
 
-      console.log('dapat membuat pembayaran atau patment');
-      
+      console.log("dapat membuat pembayaran atau patment");
+
       createPaymentSession({ configId: id });
     } else {
       // need to log in
-      
+
       localStorage.setItem("configurationId", id);
-      console.log(localStorage.setItem('configurationId', id));
+      console.log(localStorage.setItem("configurationId", id));
       console.log("modal muncul", setIsLoginModalOpen(true));
 
       setIsLoginModalOpen(true);
@@ -171,10 +180,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
             </div>
 
             <div className="mt-8 flex justify-end pb-12">
-              <Button
-                className="px-4 sm:px-6 lg:px-8"
-                onClick={() => handleCheckout()}
-              >
+              <Button className="px-4 sm:px-6 lg:px-8" onClick={handleCheckout}>
                 Check out <ArrowRight className="h-4 w-4 ml-1.5 inline" />
               </Button>
             </div>
