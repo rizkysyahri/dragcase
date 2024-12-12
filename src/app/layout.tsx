@@ -24,9 +24,9 @@ export default function RootLayout({
           <div className="flex flex-1 flex-col h-full">
             <Providers>{children}</Providers>
           </div>
+          <Footer />
         </main>
         <Toaster />
-        <Footer />
       </body>
     </html>
   );

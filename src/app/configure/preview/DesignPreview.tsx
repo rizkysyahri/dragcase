@@ -22,7 +22,8 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   const { id } = configuration;
   const { user } = useKindeBrowserClient();
 
-  const [isLoginModalOpen, setIsLoginModalOpen] = React.useState<boolean>(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] =
+    React.useState<boolean>(false);
   const [showConfetti, setShowConfetti] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -53,7 +54,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
     },
     onError: () => {
       toast({
-        icon: "Something went wrong",
+        title: "Something went wrong",
         description: "There was an error on our end. Please try again.",
         variant: "destructive",
       });
@@ -64,10 +65,16 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
     if (user) {
       // craete payment session
 
+      console.log('dapat membuat pembayaran atau patment');
+      
       createPaymentSession({ configId: id });
     } else {
       // need to log in
+      
       localStorage.setItem("configurationId", id);
+      console.log(localStorage.setItem('configurationId', id));
+      console.log("modal muncul", setIsLoginModalOpen(true));
+
       setIsLoginModalOpen(true);
     }
   };
