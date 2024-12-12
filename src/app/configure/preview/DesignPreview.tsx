@@ -21,8 +21,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   const { toast } = useToast();
   const { id } = configuration;
   const { user } = useKindeBrowserClient();
-  console.log('ini user', user);
-  
+  console.log("ini user", user);
 
   const [isLoginModalOpen, setIsLoginModalOpen] =
     React.useState<boolean>(false);
@@ -31,13 +30,6 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   React.useEffect(() => {
     setShowConfetti(true);
   }, []);
-
-  React.useEffect(() => {
-    // Tutup modal jika user sudah login
-    if (user) {
-      setIsLoginModalOpen(false);
-    }
-  }, [user]);
 
   const { color, model, material, finish } = configuration;
 
