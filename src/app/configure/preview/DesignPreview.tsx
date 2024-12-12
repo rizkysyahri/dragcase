@@ -26,10 +26,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] =
     React.useState<boolean>(false);
   const [showConfetti, setShowConfetti] = React.useState<boolean>(false);
-
-  React.useEffect(() => {
-    setShowConfetti(true);
-  }, []);
+  React.useEffect(() => setShowConfetti(true));
 
   const { color, model, material, finish } = configuration;
 
