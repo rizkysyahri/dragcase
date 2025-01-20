@@ -23,7 +23,6 @@ const DesignPreview = ({
   configuration: Configuration;
   user: KindeUser | null;
 }) => {
-  console.log("user", user);
 
   const router = useRouter();
   const { toast } = useToast();
