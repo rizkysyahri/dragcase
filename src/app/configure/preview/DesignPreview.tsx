@@ -14,15 +14,20 @@ import { createCheckoutSession } from "./actions";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import LoginModal from "@/components/LoginModal";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 
-const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
+const DesignPreview = ({
+  configuration,
+  user,
+}: {
+  configuration: Configuration;
+  user: KindeUser | null;
+}) => {
+  console.log("user", user);
+
   const router = useRouter();
   const { toast } = useToast();
   const { id } = configuration;
-  const { user } = useKindeBrowserClient();
-  console.log("user", user);
-  
 
   const [isLoginModalOpen, setIsLoginModalOpen] =
     React.useState<boolean>(false);
