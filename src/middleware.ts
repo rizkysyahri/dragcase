@@ -1,21 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Gantilah dengan domain yang benar untuk aplikasi frontend dan autentikasi
+// Daftar domain yang diizinkan
 const allowedOrigins = [
-  "https://dragcase.vercel.app", // Domain frontend
-  "https://your-auth-domain.com" // Contoh domain autentikasi jika terpisah
+  "https://dragcase.vercel.app", // Frontend domain
+  "https://dragcase.kinde.com",  // Domain autentikasi
 ];
 
 // Opsi CORS yang akan disetel di header respons
 const corsOptions = {
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
-  "Access-Control-Allow-Credentials": "true"
+  "Access-Control-Allow-Credentials": "true",
 };
 
 export function middleware(request: NextRequest) {
   const origin = request.headers.get("origin");
-  
+
+  // Jika origin ada dan ada di daftar yang diizinkan
   if (origin && allowedOrigins.includes(origin)) {
     if (request.method === "OPTIONS") {
       // Menangani preflight OPTIONS request
@@ -35,12 +36,13 @@ export function middleware(request: NextRequest) {
     });
     return response;
   }
-  
+
   // Jika origin tidak diizinkan, lanjutkan tanpa header CORS
+  console.error(`Blocked CORS request from origin: ${origin}`);
   return NextResponse.next();
 }
 
 // Terapkan middleware pada semua rute API
 export const config = {
-  matcher: "/api/:path*" // Terapkan middleware pada rute API
+  matcher: "/api/:path*", // Terapkan middleware pada rute API
 };
