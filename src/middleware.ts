@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Replace with the actual domains that should be allowed to access your API
+// Gantilah dengan domain yang benar untuk aplikasi frontend dan autentikasi
 const allowedOrigins = [
-  "https://dragcase.vercel.app", // Frontend domain
-  "https://your-auth-domain.com" // Example: your authentication domain, if separate
+  "https://dragcase.vercel.app", // Domain frontend
+  "https://your-auth-domain.com" // Contoh domain autentikasi jika terpisah
 ];
 
-// CORS options to set in the response headers
+// Opsi CORS yang akan disetel di header respons
 const corsOptions = {
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
@@ -16,18 +16,18 @@ const corsOptions = {
 export function middleware(request: NextRequest) {
   const origin = request.headers.get("origin");
   
-  // If the origin is in the allowedOrigins list, add CORS headers
   if (origin && allowedOrigins.includes(origin)) {
     if (request.method === "OPTIONS") {
-      // Handle preflight OPTIONS request
+      // Menangani preflight OPTIONS request
       const preflightHeaders = {
         "Access-Control-Allow-Origin": origin,
+        "Access-Control-Max-Age": "86400", // Cache preflight request selama 24 jam
         ...corsOptions
       };
       return NextResponse.json({}, { headers: preflightHeaders });
     }
-    
-    // For non-OPTIONS requests, add CORS headers to the response
+
+    // Menambahkan header CORS untuk request selain OPTIONS
     const response = NextResponse.next();
     response.headers.set("Access-Control-Allow-Origin", origin);
     Object.entries(corsOptions).forEach(([key, value]) => {
@@ -36,11 +36,11 @@ export function middleware(request: NextRequest) {
     return response;
   }
   
-  // If the origin is not allowed, proceed without adding CORS headers
+  // Jika origin tidak diizinkan, lanjutkan tanpa header CORS
   return NextResponse.next();
 }
 
-// Apply middleware to all paths
+// Terapkan middleware pada semua rute API
 export const config = {
-  matcher: "/api/:path*" // Apply middleware to API routes
+  matcher: "/api/:path*" // Terapkan middleware pada rute API
 };
