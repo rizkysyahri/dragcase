@@ -14,14 +14,14 @@ import { createCheckoutSession } from "./actions";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import LoginModal from "@/components/LoginModal";
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 
-const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
+const DesignPreview = ({ configuration, user}: { configuration: Configuration, user: KindeUser | null}) => {
+  console.log("user", user);
+  
   const router = useRouter();
   const { toast } = useToast();
   const { id } = configuration;
-  const { isAuthenticated } = useKindeBrowserClient();
-  console.log("user", isAuthenticated);
 
   const [isLoginModalOpen, setIsLoginModalOpen] =
     React.useState<boolean>(false);
@@ -60,7 +60,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   });
 
   const handleCheckout = React.useCallback(() => {
-    if (isAuthenticated) {
+    if (user) {
       // craete payment session
 
       console.log("dapat membuat pembayaran atau patment");
@@ -72,7 +72,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
       localStorage.setItem("configurationId", id);
       setIsLoginModalOpen(true);
     }
-  }, [isAuthenticated, createPaymentSession, id]);
+  }, [user, createPaymentSession, id]);
 
   return (
     <>
