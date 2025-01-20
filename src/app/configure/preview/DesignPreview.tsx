@@ -20,8 +20,8 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   const router = useRouter();
   const { toast } = useToast();
   const { id } = configuration;
-  const { user } = useKindeBrowserClient();
-  console.log("user", user);
+  const { isAuthenticated } = useKindeBrowserClient();
+  console.log("user", isAuthenticated);
 
   const [isLoginModalOpen, setIsLoginModalOpen] =
     React.useState<boolean>(false);
@@ -60,7 +60,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
   });
 
   const handleCheckout = React.useCallback(() => {
-    if (user) {
+    if (isAuthenticated) {
       // craete payment session
 
       console.log("dapat membuat pembayaran atau patment");
@@ -72,7 +72,7 @@ const DesignPreview = ({ configuration }: { configuration: Configuration }) => {
       localStorage.setItem("configurationId", id);
       setIsLoginModalOpen(true);
     }
-  }, [user, createPaymentSession, id]);
+  }, [isAuthenticated, createPaymentSession, id]);
 
   return (
     <>
