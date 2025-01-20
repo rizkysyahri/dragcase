@@ -48,7 +48,7 @@ const Page = () => {
     startUpload(acceptedFiles, { configId: undefined });
 
     setIsDragOver(false);
-  }
+  };
 
   const [isPending, startTransition] = React.useTransition();
 
